@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block title %} {{ user_to_view.first_name }} {{ user_to_view.last_name }} {% endblock title %}
+{% block content %}
+    {% if user.role == 0 or user.id == user_to_view.id %}
+    <h3>My profile</h3>
+    <a href="{% url 'authentication:update' user_to_view.id %}"><button type="button" class="btn btn-secondary">Edit profile</button></a>
+    <a style="padding-left: 10px" href="{% url 'authentication:delete' user_to_view.id %}"><button type="button" class="btn btn-danger">Delete account</button></a>
+    {% endif %}
+     {% if user.role == 0 or user.id == user_to_view.id %}
+    <h3>My orders:</h3>
+    {% else %}
+    <h3>{{ user_to_view.first_name }} {{ user_to_view.last_name }}'s orders:</h3>
+    {% endif %}
+    {% if not orders %}
+    <p>There are no orders yet.</p>
+    {% else %}
+    {% for order in orders %}
+    <div class="container" style="border: 1px solid cornflowerblue; border-radius: 5px; margin-top: 25px; margin-bottom: 20px; padding: 10px">
+    <a href="{% url 'book:detail' order.book.id %}"><h5>{{ order.book }}</h5></a>
+    <p><strong>Book taken on:</strong> {{ order.created_at }}</p>
+    {% if order.end_at %}
+        <p><strong>Was returned on:</strong> {{ order.end_at }}</p>
+    {% else %}
+        <p><strong>Must be returned by:</strong> {{ order.plated_end_at }}</p>
+    {% endif %}
+    <p></p>
+    </div>
+    {% if not order.end_at %}
+    {% if user.role == 0 or user.id == user_to_view.id %}
+    <a href="{% url 'order:close_order' order.id %}"><button type="button" class="btn btn-primary">Return Book</button></a>
+    {% else %}
+    <a href="{% url 'order:close_order' order.id %}"><button type="button" class="btn btn-primary">Close order</button></a>
+    <a style="padding-left: 10px" href="{% url 'order:update_order' order.id %}"><button type="button" class="btn btn-secondary">Update order</button></a>
+    <a style="padding-left: 10px" href="{% url 'order:delete_order' order.id %}"><button type="button" class="btn btn-danger">Delete order</button></a>
+    {% endif %}
+    {% endif %}
+    {% endfor %}
+    {% endif %}
+{% endblock%}

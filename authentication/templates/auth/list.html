@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block title %} List of users {% endblock %}
+
+{% block content %}
+    <h2 style="text-align: center">Registered users:</h2>
+    {% for user_ in users %}
+    <div class="container" style="border: 1px solid cornflowerblue; border-radius: 5px; margin-top: 25px; margin-bottom: 20px; padding: 10px">
+        <a href="{% url 'authentication:detail' user_.id %}"><h5> {{ user_.first_name }} {{ user_.middle_name }} {{ user_.last_name }}</h5></a>
+        <p><strong>Email:</strong> {{ user_.email }}</p>
+        <p><strong>Last login:</strong> {{ user_.last_login }}</p>
+    </div>
+        {% if user_.id == user.id %}
+        <a href="{% url 'authentication:update' user_.id %}"><button type="button" class="btn btn-secondary">Edit Profile</button></a>
+        {% else %}
+        <a  href="{% url 'authentication:change_perms' user_.id %}"><button type="button" class="btn btn-secondary">Change permissions</button></a>
+        {% endif %}
+
+    {% endfor %}
+{% endblock %}

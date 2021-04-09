@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+
+{% block title %} LogIn {% endblock %}
+
+{% block content %}
+    <h1>Log in to Library</h1>
+    <form method="post" autocomplete="off">
+        <div class="container" style="border: 1px solid cornflowerblue; border-radius: 5px; margin-top: 25px; margin-bottom: 20px; padding: 10px">
+    {{ form|crispy }}
+    {% csrf_token %}
+    <input type="hidden" name="next" value="{% url 'book:list_all' %}">
+        <br>
+    </div>
+    <button type="submit" class="btn btn-success">Log In</button>
+    </form>
+{% endblock %}

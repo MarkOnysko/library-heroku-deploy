@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block title %} Update profile {% endblock %}
+
+{% block content %}
+    <a href="{% url 'authentication:detail' user.id %}">←Back</a>
+    <p></p>
+    <h3>Update profile:</h3>
+    <form method="post" autocomplete="off">
+        <div class="container" style="border: 1px solid cornflowerblue; border-radius: 5px; margin-top: 25px; margin-bottom: 20px; padding: 10px">
+            {% csrf_token %}
+            {{ form|crispy }}
+        </div>
+    <button type="submit" class="btn btn-success">Update</button>
+    </form>
+{% endblock %}

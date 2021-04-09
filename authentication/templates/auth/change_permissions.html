@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block title %} Change Permissions {% endblock %}
+
+{% block content %}
+    <a href="{% url 'authentication:users_list' %}">←Back to users list</a>
+    <p></p>
+    <h3>Change Permissions</h3>
+    <form method="post" autocomplete="off">
+        <div class="container" style="border: 1px solid cornflowerblue; border-radius: 5px; margin-top: 25px; margin-bottom: 20px; padding: 10px">
+            {% csrf_token %}
+            {{ form|crispy }}
+        </div>
+        <p></p>
+    <button type="submit" class="btn btn-success">Change Permissions</button>
+    </form>
+{% endblock %}

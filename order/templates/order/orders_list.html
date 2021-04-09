@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block title %} All Orders {% endblock title %}
+
+{% block content %}
+    <h2 style="text-align: center">All orders:</h2>
+    {% if user.role == 1 %}
+        <a href="{% url 'order:create_order' %}"><button type="button" class="btn btn-success">Create order</button></a>
+    {% endif %}
+    {% for order in order_list %}
+        <div class="container" style="border: 1px solid cornflowerblue; border-radius: 5px; margin-top: 25px; margin-bottom: 20px; padding: 10px">
+                <p><h5><a href="{% url 'order:detail_order' order.id %}"> Order №{{ order.id }}</a></h5></p>
+                <p><b>User:</b> <a href="{% url 'authentication:detail' order.user.id %}">{{ order.user.first_name }} {{ order.user.last_name }}</a></p>
+                <p><b>Book:</b> <a href="{% url 'book:detail' order.book.id %}">{{ order.book.name }}</a></p>
+                {% for author in order.book.authors.all %}
+                    <li>Authors: <a href="{% url 'author:detail' author.id %}"> {{ author.name }} {{ author.surname }}</a></li>
+                {% endfor %}
+                <p></p>
+        </div>
+        {% if user.role == 1 and not order.end_at%}
+            <a href="{% url 'order:close_order' order.id %}"><button type="button" class="btn btn-primary">Close order</button></a>
+            <a style="padding-left: 10px;" href="{% url 'order:update_order' order.id %}"><button type="button" class="btn btn-secondary">Update</button></a>
+            <a style="padding-left: 10px;" href="{% url 'order:delete_order' order.id %}"><button type="button" class="btn btn-danger">Delete</button></a>
+        {% endif %}
+    {% endfor %}
+
+{% endblock content %}

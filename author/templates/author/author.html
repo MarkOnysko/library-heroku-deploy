@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+    {% if user.role == 1 %}
+    <form method="post">
+        {% csrf_token %}
+        <table class="table">
+            <thead>
+                <th>{{ form.name|as_crispy_field }}</th>
+                <th>{{ form.surname|as_crispy_field }}</th>
+                <th valign="top">{{ form.patronymic|as_crispy_field }}</th>
+            </thead>
+        </table>
+                <p align="center"><button style="height:40px;width:150px" type="submit" class="btn btn-success">Save</button></p>
+    </form>
+    {% endif %}
+    <table class="table">
+    <thead>
+        <tr>
+            <th>Firstname</th>
+            <th>Lastname</th>
+            <th>Patronymic</th>
+            <th></th>
+            {% if user.role == 1 %}
+            <th></th>
+            <th></th>
+            {% endif %}
+        </tr>
+    </thead>
+    <tbody>
+        {% for author in  authors %}
+            <tr>
+                <td>{{ author.name }}</td>
+                <td>{{ author.surname }}</td>
+                <td>{{ author.patronymic }}</td>
+                <td><a href="{% url 'author:detail' author.id %}"><button type="button" class="btn btn-primary">Books</button></a></td>
+                {% if user.role == 1 %}
+                <td>
+                    <a href="{% url 'author:update' author.id %}"><button type="button" class="btn btn-secondary">Edit</button></a>
+                </td>
+                <td>
+                    <a href="{% url 'author:delete' author.id %}"><button type="button" class="btn btn-danger">Delete</button></a>
+                </td>
+                {% endif %}
+            </tr>
+        {% endfor %}
+    </tbody>
+    </table>
+{% endblock %}

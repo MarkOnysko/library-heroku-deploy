@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block title %} Add new book {% endblock title %}
+{% block content %}
+     <a href="{% url 'book:list_all' %}">←Back to all books</a>
+    <P></P>
+ <h3>Add new book</h3>
+<form method="post" autocomplete="off">
+    <div class="container" style="border: 1px solid cornflowerblue; border-radius: 5px; margin-top: 25px; margin-bottom: 20px; padding: 10px">
+    {% csrf_token %}
+    {{ form|crispy }}
+    <p></p>
+    </div>
+    <button type="submit" class="btn btn-success">Add book</button>
+</form>
+{% endblock content %}

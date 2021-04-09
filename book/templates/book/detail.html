@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block title %} {{ book.name }} {% endblock title %}
+
+{% block content %}
+    <a href="{% url 'book:list_all' %}">←To all books</a>
+    <p></p>
+    <h3>{{ book.name }}</h3>
+    <div class="container" style="border: 1px solid cornflowerblue; border-radius: 5px; margin-top: 25px; margin-bottom: 20px; padding: 10px">
+    <p></p>
+    <p><strong>Authors:</strong></p>
+    <ul style="list-style: none">
+    {% for author in book.authors.all %}
+    <li><a href="{% url 'author:detail' author.id %}">{{ author.name }} {{ author.surname }}</a></li>
+    {% endfor %}
+    </ul>
+    <p><strong>Description: </strong> {{ book.description }}</p>
+    <p><strong>Count: </strong>{{ book.count }}</p>
+    </div>
+    {% if user.role == 1 %}
+        <a href="{% url 'book:update' book.id %}"><button type="button" class="btn btn-secondary">Update</button></a>
+        <a style="padding-left: 10px;" href="{% url 'book:delete' book.id %}"><button type="button" class="btn btn-danger">Delete</button></a>
+    {% elif user.role == 0 and book.count > 1%}
+        <a href="{% url 'order:borrow_book' book.id %}"><button type="button" class="btn btn-primary">Order Book</button></a>
+    {% elif user.role == 0 and book.count <= 1 %}
+        <p>This book is not available at the moment, try to order it later.</p>
+    {% endif %}
+{% endblock %}
+

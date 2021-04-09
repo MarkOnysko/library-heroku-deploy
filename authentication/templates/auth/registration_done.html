@@ -1,0 +1,8 @@
+{% extends 'base.html' %}
+
+{% block title %}Registered successfully{% endblock %}
+
+{% block content %}
+<H1 style="text-align: center">Your registration was successful</H1>
+<h3 style="text-align: center">Now you can <a href="{% url 'authentication:login' %}">log-in</a>.</h3>
+{% endblock %}
